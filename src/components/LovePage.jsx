@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Music, Share2, Volume2, VolumeX } from 'lucide-react';
+import { Heart, Music, Share2, Volume2, VolumeX, Copy, Check } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const LovePage = ({ data, onBack }) => {
@@ -9,6 +9,7 @@ const LovePage = ({ data, onBack }) => {
     const [accepted, setAccepted] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const [displayText, setDisplayText] = useState('');
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         // Typewriter effect
@@ -41,20 +42,29 @@ const LovePage = ({ data, onBack }) => {
     };
 
     const handleShare = async () => {
+        const shareData = {
+            title: 'LoveStory - Digital Valentine Surprise',
+            text: `Hey! Check out this special surprise from ${data.yourName} to ${data.partnerName}! 💖`,
+            url: window.location.href
+        };
+
         try {
-            if (navigator.share) {
-                await navigator.share({
-                    title: 'LoveStory - Digital Valentine Surprise',
-                    text: `Check out this surprise from ${data.yourName}!`,
-                    url: window.location.href
-                });
+            if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                await navigator.share(shareData);
             } else {
-                throw new Error('Web Share API not supported');
+                throw new Error('Web Share API not fully supported');
             }
         } catch (err) {
-            navigator.clipboard.writeText(window.location.href);
-            alert('Link copied to clipboard!');
+            console.log('Share failed, using clipboard fallback');
+            copyToClipboard();
         }
+    };
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        });
     };
 
     return (
@@ -137,19 +147,30 @@ const LovePage = ({ data, onBack }) => {
                             <h2 className="text-4xl md:text-5xl font-bold mb-4">Yay! Best Day Ever! 💖</h2>
                             <p className="text-xl text-gray-600">You've made {data.yourName} the happiest person!</p>
 
-                            <div className="flex gap-4 justify-center mt-10">
-                                <button
-                                    onClick={handleShare}
-                                    className="p-4 glass-card text-primary-red hover:bg-white transition-colors"
-                                    title="Share Surprise"
-                                >
-                                    <Share2 size={24} />
-                                </button>
+                            <div className="mt-10 space-y-4">
+                                <div className="flex flex-wrap gap-4 justify-center">
+                                    <button
+                                        onClick={handleShare}
+                                        className="flex items-center gap-2 px-6 py-4 romantic-gradient text-white rounded-xl font-bold shadow-lg hover:scale-105 active:scale-95"
+                                    >
+                                        <Share2 size={20} />
+                                        Share Surprise
+                                    </button>
+
+                                    <button
+                                        onClick={copyToClipboard}
+                                        className="flex items-center gap-2 px-6 py-4 glass-card text-primary-red rounded-xl font-bold hover:bg-white/60 active:scale-95"
+                                    >
+                                        {copied ? <Check size={20} className="text-green-500" /> : <Copy size={20} />}
+                                        {copied ? 'Link Copied!' : 'Copy Link'}
+                                    </button>
+                                </div>
+
                                 <button
                                     onClick={onBack}
-                                    className="px-8 py-3 rounded-xl border border-primary-pink text-primary-red font-semibold"
+                                    className="text-gray-500 hover:text-primary-red transition-colors font-medium underline underline-offset-4"
                                 >
-                                    Create Another
+                                    Create Another One
                                 </button>
                             </div>
                         </motion.div>
