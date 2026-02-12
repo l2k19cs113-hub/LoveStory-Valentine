@@ -40,6 +40,23 @@ const LovePage = ({ data, onBack }) => {
         });
     };
 
+    const handleShare = async () => {
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'LoveStory - Digital Valentine Surprise',
+                    text: `Check out this surprise from ${data.yourName}!`,
+                    url: window.location.href
+                });
+            } else {
+                throw new Error('Web Share API not supported');
+            }
+        } catch (err) {
+            navigator.clipboard.writeText(window.location.href);
+            alert('Link copied to clipboard!');
+        }
+    };
+
     return (
         <div className={`min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-6 ${data.theme === 'midnight' ? 'dark-theme' : ''}`}>
 
@@ -121,7 +138,11 @@ const LovePage = ({ data, onBack }) => {
                             <p className="text-xl text-gray-600">You've made {data.yourName} the happiest person!</p>
 
                             <div className="flex gap-4 justify-center mt-10">
-                                <button className="p-4 glass-card text-primary-red hover:bg-white transition-colors">
+                                <button
+                                    onClick={handleShare}
+                                    className="p-4 glass-card text-primary-red hover:bg-white transition-colors"
+                                    title="Share Surprise"
+                                >
                                     <Share2 size={24} />
                                 </button>
                                 <button
