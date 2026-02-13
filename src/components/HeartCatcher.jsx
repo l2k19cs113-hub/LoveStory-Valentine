@@ -1,122 +1,172 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { Heart, Trophy } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Trophy, Play } from 'lucide-react';
 
 const HeartCatcher = ({ onComplete }) => {
     const [score, setScore] = useState(0);
-    const [basketPos, setBasketPos] = useState(50);
     const [items, setItems] = useState([]);
     const [gameActive, setGameActive] = useState(false);
-    const targetScore = 10;
+    const [gameOver, setGameOver] = useState(false);
 
+    const basketPosRef = useRef(50);
+    const [displayBasketPos, setDisplayBasketPos] = useState(50);
+    const targetScore = 15;
+    const gameAreaRef = useRef(null);
+
+    // Helper to spawn items
     const spawnItem = useCallback(() => {
         const newItem = {
-            id: Date.now(),
-            left: Math.random() * 90 + 5,
+            id: Math.random(),
+            left: Math.random() * 80 + 10,
             top: -50,
-            speed: Math.random() * 2 + 2,
+            speed: Math.random() * 3 + 3,
+            caught: false
         };
         setItems((prev) => [...prev, newItem]);
     }, []);
 
+    // Spawn interval
     useEffect(() => {
         if (!gameActive) return;
-        const interval = setInterval(spawnItem, 800);
+        const interval = setInterval(spawnItem, 700);
         return () => clearInterval(interval);
     }, [gameActive, spawnItem]);
 
+    // Main Game Loop using requestAnimationFrame
     useEffect(() => {
         if (!gameActive) return;
-        const gameLoop = setInterval(() => {
-            setItems((prev) => {
-                const nextItems = prev.map((item) => ({ ...item, top: item.top + item.speed }));
 
+        let animationFrameId;
+
+        const update = () => {
+            setItems((prev) => {
+                const nextItems = prev.map((item) => ({
+                    ...item,
+                    top: item.top + item.speed
+                }));
+
+                // Catch logic
                 nextItems.forEach((item) => {
-                    if (item.top > 330 && item.top < 370) {
-                        const itemLeft = item.left;
-                        if (Math.abs(itemLeft - basketPos) < 10) {
-                            if (!item.caught) {
-                                item.caught = true;
-                                setScore((s) => s + 1);
-                            }
+                    if (!item.caught && item.top >= 330 && item.top <= 380) {
+                        const distance = Math.abs(item.left - basketPosRef.current);
+                        if (distance < 15) {
+                            item.caught = true;
+                            setScore((s) => s + 1);
                         }
                     }
                 });
 
                 return nextItems.filter((item) => item.top < 450 && !item.caught);
             });
-        }, 16);
 
-        return () => clearInterval(gameLoop);
-    }, [gameActive, basketPos]);
+            animationFrameId = requestAnimationFrame(update);
+        };
 
+        animationFrameId = requestAnimationFrame(update);
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [gameActive]);
+
+    // Check victory
     useEffect(() => {
         if (score >= targetScore) {
             setGameActive(false);
-            setTimeout(onComplete, 1000);
+            setGameOver(true);
+            setTimeout(onComplete, 1500);
         }
     }, [score, onComplete]);
 
-    const handleMouseMove = (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        setBasketPos(Math.min(Math.max(x, 5), 95));
+    const updatePosition = (clientX) => {
+        if (!gameAreaRef.current) return;
+        const rect = gameAreaRef.current.getBoundingClientRect();
+        const x = ((clientX - rect.left) / rect.width) * 100;
+        const clampedY = Math.min(Math.max(x, 10), 90);
+        basketPosRef.current = clampedY;
+        setDisplayBasketPos(clampedY);
     };
 
+    const handleMouseMove = (e) => updatePosition(e.clientX);
+
     const handleTouchMove = (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        if (!e.touches[0]) return;
-        const x = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
-        setBasketPos(Math.min(Math.max(x, 5), 95));
+        if (e.touches[0]) {
+            updatePosition(e.touches[0].clientX);
+        }
     };
 
     return (
-        <div className="flex flex-col items-center gap-6 p-4">
-            <div className="text-center">
-                <h2 className="text-3xl font-bold text-primary-red mb-2">Heart Catcher</h2>
-                <p className="text-gray-600 dark:text-gray-400">Catch {targetScore} hearts to unlock the surprise!</p>
-                <div className="text-5xl font-bold mt-4 text-primary-pink">{score} / {targetScore}</div>
+        <div className="flex flex-col items-center gap-6 w-full py-4">
+            <div className="text-center space-y-2">
+                <h2 className="text-4xl font-heading text-primary-red">Heart Catcher</h2>
+                <p className="text-gray-600 dark:text-gray-300">Move your cursor to catch the hearts!</p>
+                <div className="flex items-center justify-center gap-4 mt-4">
+                    <div className="bg-primary-red/10 px-6 py-2 rounded-full border border-primary-red/30">
+                        <span className="text-2xl font-bold text-primary-red">{score} / {targetScore}</span>
+                    </div>
+                </div>
             </div>
 
             <div
-                className="relative w-full max-w-[500px] h-[400px] bg-white/10 backdrop-blur-md border-2 border-primary-pink/30 rounded-3xl overflow-hidden touch-none"
+                ref={gameAreaRef}
+                className="relative w-full max-w-[500px] h-[400px] glass-card bg-white/30 dark:bg-black/20 overflow-hidden touch-none cursor-none"
                 onMouseMove={handleMouseMove}
                 onTouchMove={handleTouchMove}
             >
-                {!gameActive && score === 0 && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-20">
-                        <button
-                            onClick={() => setGameActive(true)}
-                            className="romantic-gradient px-8 py-3 rounded-full text-white font-bold shadow-lg"
+                <AnimatePresence>
+                    {!gameActive && !gameOver && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 flex items-center justify-center bg-black/40 z-30"
                         >
-                            Start Game
-                        </button>
-                    </div>
-                )}
+                            <button
+                                onClick={() => setGameActive(true)}
+                                className="romantic-gradient px-10 py-4 rounded-full text-white text-xl font-bold shadow-2xl flex items-center gap-2 hover:scale-105 transition-transform"
+                            >
+                                <Play size={24} fill="currentColor" />
+                                START CHALLENGE
+                            </button>
+                        </motion.div>
+                    )}
 
-                {score >= targetScore && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 dark:bg-black/80 z-20">
-                        <Trophy size={60} className="text-yellow-500 mb-4" />
-                        <h3 className="text-2xl font-bold text-primary-red">CHALLENGE COMPLETE!</h3>
-                    </div>
-                )}
+                    {gameOver && (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="absolute inset-0 flex flex-col items-center justify-center bg-white/90 dark:bg-black/90 z-30"
+                        >
+                            <Trophy size={80} className="text-yellow-500 mb-4" />
+                            <h3 className="text-3xl font-bold text-primary-red neon-text">CHALLENGE COMPLETE!</h3>
+                            <p className="text-gray-600 mt-2">Opening the secret message...</p>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
+                {/* Falling Hearts */}
                 {items.map((item) => (
-                    <motion.div
+                    <div
                         key={item.id}
-                        className="absolute pointer-events-none"
-                        style={{ left: `${item.left}%`, top: `${item.top}px` }}
+                        className="absolute transition-transform duration-100"
+                        style={{
+                            left: `${item.left}%`,
+                            top: `${item.top}px`,
+                            transform: 'translateX(-50%)'
+                        }}
                     >
-                        <Heart fill="#E63946" stroke="none" size={30} />
-                    </motion.div>
+                        <Heart fill="#E63946" stroke="none" size={32} className="drop-shadow-md" />
+                    </div>
                 ))}
 
+                {/* Catcher (Basket) */}
                 <div
-                    className="absolute bottom-5 w-16 h-12 flex items-center justify-center pointer-events-none"
-                    style={{ left: `${basketPos}%`, transform: 'translateX(-50%)' }}
+                    className="absolute bottom-6 w-24 h-16 flex items-center justify-center pointer-events-none transition-all duration-75"
+                    style={{
+                        left: `${displayBasketPos}%`,
+                        transform: 'translateX(-50%)'
+                    }}
                 >
-                    <div className="w-16 h-10 bg-primary-red/80 rounded-b-2xl border-2 border-white/40 flex items-center justify-center shadow-lg">
-                        <Heart size={20} fill="white" className="animate-pulse" />
+                    <div className="relative w-20 h-12 bg-primary-red/90 rounded-b-2xl border-2 border-white/50 shadow-xl flex items-center justify-center">
+                        <div className="absolute top-0 left-0 w-full h-2 bg-primary-red rounded-full opacity-50 blur-[2px]"></div>
+                        <Heart size={24} fill="white" stroke="none" className="animate-pulse" />
                     </div>
                 </div>
             </div>
