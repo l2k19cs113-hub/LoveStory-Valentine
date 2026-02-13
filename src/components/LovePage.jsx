@@ -4,30 +4,18 @@ import { Heart, Music, Share2, Volume2, VolumeX, Copy, Check } from 'lucide-reac
 import confetti from 'canvas-confetti';
 
 const LovePage = ({ data, onBack }) => {
+    const [isStarted, setIsStarted] = useState(false);
     const [showProposal, setShowProposal] = useState(false);
     const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
     const [accepted, setAccepted] = useState(false);
-    const [isMuted, setIsMuted] = useState(true);
+    const [isMuted, setIsMuted] = useState(false);
     const [displayText, setDisplayText] = useState('');
     const [copied, setCopied] = useState(false);
     const audioRef = useRef(null);
 
     useEffect(() => {
-        // Global click listener to unlock audio (browser requirement)
-        const unlockAudio = () => {
-            if (audioRef.current && isMuted) {
-                // We keep it muted by default but prepare the element
-                // Or better: if user clicks anything, we try to play
-                setIsMuted(false);
-                document.removeEventListener('click', unlockAudio);
-            }
-        };
-        document.addEventListener('click', unlockAudio);
-        return () => document.removeEventListener('click', unlockAudio);
-    }, [isMuted]);
+        if (!isStarted) return;
 
-    useEffect(() => {
-        // Typewriter effect
         let i = 0;
         const interval = setInterval(() => {
             setDisplayText(data.message.slice(0, i));
@@ -38,10 +26,10 @@ const LovePage = ({ data, onBack }) => {
             }
         }, 50);
         return () => clearInterval(interval);
-    }, [data.message]);
+    }, [data.message, isStarted]);
 
     useEffect(() => {
-        if (audioRef.current) {
+        if (audioRef.current && isStarted) {
             audioRef.current.volume = 0.4;
             if (!isMuted) {
                 const playPromise = audioRef.current.play();
@@ -54,7 +42,11 @@ const LovePage = ({ data, onBack }) => {
                 audioRef.current.pause();
             }
         }
-    }, [isMuted]);
+    }, [isMuted, isStarted]);
+
+    const handleStart = () => {
+        setIsStarted(true);
+    };
 
     const handleNoHover = () => {
         const newX = Math.random() * 200 - 100;
@@ -98,14 +90,48 @@ const LovePage = ({ data, onBack }) => {
         });
     };
 
+    if (!isStarted) {
+        return (
+            <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${data.theme === 'midnight' ? 'dark-theme' : ''}`}>
+                <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="text-center space-y-8"
+                >
+                    <div className="relative inline-block">
+                        <Heart size={100} fill="#E63946" stroke="none" className="animate-pulse" />
+                        <motion.div
+                            animate={{ scale: [1, 1.2, 1] }}
+                            transition={{ repeat: Infinity, duration: 2 }}
+                            className="absolute inset-0 bg-primary-red/20 blur-2xl rounded-full"
+                        />
+                    </div>
+                    <h1 className="text-4xl font-bold">You have a message from {data.yourName}</h1>
+                    <button
+                        onClick={handleStart}
+                        className="px-12 py-5 romantic-gradient text-white text-2xl font-bold rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all"
+                    >
+                        Open My Surprise ✨
+                    </button>
+                    <p className="text-gray-400">Please turn on your sound 🔊</p>
+                </motion.div>
+            </div>
+        );
+    }
+
     return (
         <div className={`min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-6 ${data.theme === 'midnight' ? 'dark-theme' : ''}`}>
 
-            {/* Audio Element */}
             <audio
                 ref={audioRef}
                 src="https://archive.org/download/96moviebgm/Kadhale%20Kadhale.mp3"
                 loop
+                onError={(e) => {
+                    console.log("96 Song failed, falling back to backup");
+                    // Backup link just in case
+                    e.target.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3";
+                    e.target.play();
+                }}
             />
 
             {/* Background Decor */}
