@@ -55,8 +55,8 @@ function App() {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-pink-50">
                 <div className="mb-8 text-center max-w-md">
-                    <h1 className="text-3xl font-bold text-primary-red mb-2">A Special Surprise Awaits!</h1>
-                    <p className="text-gray-600">Catch some love to reveal your message...</p>
+                    <h1 className="text-3xl font-bold text-primary-red mb-2">The Portal of Love</h1>
+                    <p className="text-gray-600">Demonstrate your devotion by gathering the falling hearts...</p>
                 </div>
                 <HeartCatcher onComplete={handleGameComplete} />
             </div>
