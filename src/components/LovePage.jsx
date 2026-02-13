@@ -167,7 +167,7 @@ const LovePage = ({ data, onBack }) => {
                                 </div>
 
                                 <button
-                                    onClick={onBack}
+                                    onClick={() => window.location.href = window.location.origin + window.location.pathname}
                                     className="text-gray-500 hover:text-primary-red transition-colors font-medium underline underline-offset-4"
                                 >
                                     Create Another One
