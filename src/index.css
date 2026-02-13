@@ -47,10 +47,6 @@ body.dark-mode,
     color: rgba(255, 255, 255, 0.6) !important;
 }
 
-.dark-theme .input-glass {
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-}
 
 h1,
 h2,
@@ -679,4 +675,52 @@ button:disabled {
 
 .grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Form Elements */
+.label-glass {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.input-glass {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 143, 171, 0.2);
+    border-radius: 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--dark-love);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.input-glass:focus {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: var(--primary-pink);
+    box-shadow: 0 0 20px rgba(255, 143, 171, 0.2);
+    transform: translateY(-2px);
+}
+
+.input-glass::placeholder {
+    color: rgba(75, 85, 99, 0.4);
+}
+
+.dark-theme .input-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.dark-theme .input-glass:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary-pink);
 }
