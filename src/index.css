@@ -214,6 +214,10 @@ button:disabled {
     z-index: 20;
 }
 
+.z-30 {
+    z-index: 30;
+}
+
 .z-50 {
     z-index: 50;
 }
@@ -258,6 +262,10 @@ button:disabled {
 
 .max-w-3xl {
     max-width: 48rem;
+}
+
+.max-w-4xl {
+    max-width: 56rem;
 }
 
 .min-h-screen {
@@ -312,6 +320,11 @@ button:disabled {
     padding-right: 2rem;
 }
 
+.px-10 {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
 .px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -359,6 +372,14 @@ button:disabled {
 
 .mb-12 {
     margin-bottom: 3rem;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
 }
 
 .mt-6 {
@@ -469,68 +490,32 @@ button:disabled {
     color: white;
 }
 
-.bg-primary-red {
-    background-color: var(--primary-red);
+.bg-primary-red\/10 {
+    background-color: rgba(230, 57, 70, 0.1);
 }
 
-.bg-primary-pink {
-    background-color: var(--primary-pink);
+.bg-primary-red\/90 {
+    background-color: rgba(230, 57, 70, 0.9);
 }
 
-.bg-primary-pink\/10 {
-    background-color: rgba(255, 143, 171, 0.1);
+.bg-black\/20 {
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
-.bg-primary-red\/5 {
-    background-color: rgba(230, 57, 70, 0.05);
+.bg-black\/40 {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
-.bg-gray-100 {
-    background-color: #f3f4f6;
-}
-
-.bg-gray-100\/20 {
-    background-color: rgba(243, 244, 246, 0.2);
-}
-
-.bg-gray-200 {
-    background-color: #e5e7eb;
-}
-
-.bg-gray-800 {
-    background-color: #1f2937;
+.bg-white\/30 {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .bg-white\/40 {
     background-color: rgba(255, 255, 255, 0.4);
 }
 
-.bg-white\/50 {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-.bg-red-50 {
-    background-color: #fef2f2;
-}
-
-.bg-pink-50 {
-    background-color: #fdf2f8;
-}
-
-.bg-opacity-10 {
-    opacity: 0.1;
-}
-
-.bg-opacity-40 {
-    opacity: 0.4;
-}
-
-.bg-opacity-50 {
-    opacity: 0.5;
-}
-
-.bg-opacity-100 {
-    opacity: 1;
+.bg-white\/90 {
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 .border {
@@ -541,32 +526,12 @@ button:disabled {
     border-width: 2px;
 }
 
-.border-dashed {
-    border-style: dashed;
+.border-primary-red\/30 {
+    border-color: rgba(230, 57, 70, 0.3);
 }
 
-.border-gray-100\/20 {
-    border-color: rgba(243, 244, 246, 0.2);
-}
-
-.border-gray-200 {
-    border-color: #e5e7eb;
-}
-
-.border-primary-pink\/30 {
-    border-color: rgba(255, 143, 171, 0.3);
-}
-
-.border-primary-red {
-    border-color: var(--primary-red);
-}
-
-.border-primary-pink {
-    border-color: var(--primary-pink);
-}
-
-.border-transparent {
-    border-color: transparent;
+.border-white\/50 {
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .rounded-full {
@@ -575,6 +540,15 @@ button:disabled {
 
 .rounded-xl {
     border-radius: 1rem;
+}
+
+.rounded-2xl {
+    border-radius: 1.5rem;
+}
+
+.rounded-b-2xl {
+    border-bottom-left-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
 }
 
 /* Special Effects */
@@ -587,45 +561,6 @@ button:disabled {
     box-shadow: var(--shadow-soft);
 }
 
-body.dark-mode .glass-card {
-    background: rgba(26, 26, 46, 0.6);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.input-glass {
-    background: rgba(255, 255, 255, 0.4);
-    border: 1px solid var(--glass-border);
-    padding: 1rem;
-    border-radius: 12px;
-    width: 100%;
-    font-family: inherit;
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-body.dark-mode .input-glass {
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.input-glass:focus {
-    border-color: var(--primary-pink);
-    box-shadow: 0 0 0 4px rgba(255, 143, 171, 0.2);
-}
-
-.label-glass {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: var(--primary-red);
-}
-
-body.dark-mode .label-glass {
-    color: var(--primary-pink);
-}
-
 .shadow-lg {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
@@ -634,144 +569,65 @@ body.dark-mode .label-glass {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
-.shadow-red-200 {
-    box-shadow: 0 10px 15px -3px rgba(230, 57, 70, 0.2);
+.shadow-2xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
-.drop-shadow-lg {
-    filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04)) drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1));
+.drop-shadow-md {
+    filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
 }
 
-.drop-shadow-xl {
-    filter: drop-shadow(0 20px 13px rgba(0, 0, 0, 0.03)) drop-shadow(0 8px 5px rgba(0, 0, 0, 0.08));
+.cursor-none {
+    cursor: none;
 }
 
-.blur-3xl {
-    filter: blur(64px);
+.touch-none {
+    touch-action: none;
 }
 
-.rotate-3 {
-    transform: rotate(3deg);
+/* Game Specific Styles */
+.game-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid var(--primary-pink);
+    border-radius: 24px;
+    overflow: hidden;
+    margin: 0 auto;
 }
 
-.hover\:rotate-0:hover {
-    transform: rotate(0deg);
+.basket {
+    position: absolute;
+    bottom: 20px;
+    width: 80px;
+    height: 50px;
+    background: var(--primary-red);
+    border-radius: 0 0 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.group:hover .rotate-3 {
-    transform: rotate(0deg);
+.falling-heart {
+    position: absolute;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
-.-rotate-12 {
-    transform: rotate(-12deg);
+.rotate-y-180 {
+    transform: rotateY(180deg);
 }
 
-.grid {
-    display: grid;
+.opacity-40 {
+    opacity: 0.4;
 }
 
-.grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+.aspect-square {
+    aspect-ratio: 1 / 1;
 }
 
-/* Dark mode overrides */
-body.dark-mode .text-gray-700,
-body.dark-mode .text-gray-600 {
-    color: #d1d5db;
+.grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
-
-body.dark-mode .text-gray-500 {
-    color: #9ca3af;
-}
-
-/* Transitions */
-.transition-transform {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.transition-all {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.duration-500 {
-    transition-duration: 500ms;
-}
-
-/* Responsive Breakpoints */
-@media (min-width: 640px) {
-    .sm\:flex-row {
-        flex-direction: row;
-    }
-}
-
-@media (min-width: 768px) {
-    .md\:text-5xl {
-        font-size: 3rem;
-    }
-
-    .md\:text-6xl {
-        font-size: 3.75rem;
-    }
-
-    .md\:text-7xl {
-        font-size: 4.5rem;
-    }
-
-    .md\:p-12 {
-        padding: 3rem;
-    }
-
-    .md\:p-16 {
-        padding: 4rem;
-    }
-}
-
-@media (min-width: 1024px) {
-    .lg\:flex-row {
-        flex-direction: row;
-    }
-
-    .lg\:w-1/2 {
-        width: 50%;
-    }
-
-    .lg\:text-left {
-        text-align: left;
-    }
-
-    .lg\:mx-0 {
-        margin-left: 0;
-        margin-right: 0;
-    }
-}
- . g a m e - c o n t a i n e r   { 
-     p o s i t i o n :   r e l a t i v e ; 
-     w i d t h :   1 0 0 % ; 
-     m a x - w i d t h :   5 0 0 p x ; 
-     h e i g h t :   4 0 0 p x ; 
-     b a c k g r o u n d :   r g b a ( 2 5 5 ,   2 5 5 ,   2 5 5 ,   0 . 2 ) ; 
-     b o r d e r :   2 p x   s o l i d   v a r ( - - p r i m a r y - p i n k ) ; 
-     b o r d e r - r a d i u s :   2 4 p x ; 
-     o v e r f l o w :   h i d d e n ; 
-     m a r g i n :   0   a u t o ; 
- } 
- 
- . b a s k e t   { 
-     p o s i t i o n :   a b s o l u t e ; 
-     b o t t o m :   2 0 p x ; 
-     w i d t h :   8 0 p x ; 
-     h e i g h t :   5 0 p x ; 
-     b a c k g r o u n d :   v a r ( - - p r i m a r y - r e d ) ; 
-     b o r d e r - r a d i u s :   0   0   2 0 p x   2 0 p x ; 
-     d i s p l a y :   f l e x ; 
-     a l i g n - i t e m s :   c e n t e r ; 
-     j u s t i f y - c o n t e n t :   c e n t e r ; 
-     b o x - s h a d o w :   0   1 0 p x   2 0 p x   r g b a ( 0 , 0 , 0 , 0 . 1 ) ; 
- } 
- 
- . f a l l i n g - h e a r t   { 
-     p o s i t i o n :   a b s o l u t e ; 
-     f i l t e r :   d r o p - s h a d o w ( 0   4 p x   6 p x   r g b a ( 0 , 0 , 0 , 0 . 1 ) ) ; 
- } 
-  
- 
