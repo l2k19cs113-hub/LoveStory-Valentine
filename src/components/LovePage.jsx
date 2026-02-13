@@ -124,11 +124,15 @@ const LovePage = ({ data, onBack }) => {
 
             <audio
                 ref={audioRef}
-                src="/assets/bgm.mp3"
+                src="/bgm.mp3"
                 loop
                 onError={(e) => {
-                    console.log("Local song failed, falling back to backup");
-                    e.target.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3";
+                    console.log("Local /bgm.mp3 failed, trying /assets/bgm.mp3");
+                    if (e.target.src.includes("/bgm.mp3")) {
+                        e.target.src = "/assets/bgm.mp3";
+                    } else {
+                        e.target.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3";
+                    }
                     if (isStarted) e.target.play();
                 }}
             />
