@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Music, Share2, Volume2, VolumeX, Copy, Check } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -7,9 +7,10 @@ const LovePage = ({ data, onBack }) => {
     const [showProposal, setShowProposal] = useState(false);
     const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
     const [accepted, setAccepted] = useState(false);
-    const [isMuted, setIsMuted] = useState(true);
+    const [isMuted, setIsMuted] = useState(false);
     const [displayText, setDisplayText] = useState('');
     const [copied, setCopied] = useState(false);
+    const audioRef = useRef(null);
 
     useEffect(() => {
         // Typewriter effect
@@ -24,6 +25,17 @@ const LovePage = ({ data, onBack }) => {
         }, 50);
         return () => clearInterval(interval);
     }, [data.message]);
+
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = 0.5;
+            if (!isMuted) {
+                audioRef.current.play().catch(err => console.log("Autoplay blocked or audio error"));
+            } else {
+                audioRef.current.pause();
+            }
+        }
+    }, [isMuted]);
 
     const handleNoHover = () => {
         const newX = Math.random() * 200 - 100;
@@ -69,6 +81,13 @@ const LovePage = ({ data, onBack }) => {
 
     return (
         <div className={`min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-6 ${data.theme === 'midnight' ? 'dark-theme' : ''}`}>
+
+            {/* Audio Element */}
+            <audio
+                ref={audioRef}
+                src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                loop
+            />
 
             {/* Background Decor */}
             <div className="fixed inset-0 pointer-events-none">
@@ -186,10 +205,14 @@ const LovePage = ({ data, onBack }) => {
                 >
                     {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
                 </button>
-                <button className="p-4 glass-card bg-white/50 text-gray-600 shadow-lg">
+                <button
+                    onClick={() => setIsMuted(!isMuted)}
+                    className="p-4 glass-card bg-white/50 text-gray-600 shadow-lg"
+                >
                     <Music size={24} />
                 </button>
             </div>
+
         </div>
     );
 };
