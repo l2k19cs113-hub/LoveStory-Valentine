@@ -83,7 +83,7 @@ function App() {
 
         {currentPage === 'games' && (
           <motion.div key="games" className="min-h-screen flex items-center justify-center p-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className="w-full max-w-4xl glass-card p-8 bg-white/40">
+            <div className="w-full max-w-4xl">
               {gameState === 'level1' && <HeartCatcher onComplete={onGameComplete} />}
               {gameState === 'level2' && <LoveMatch onComplete={onGameComplete} />}
             </div>
