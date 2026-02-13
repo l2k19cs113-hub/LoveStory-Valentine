@@ -46,14 +46,14 @@ const LoveMatch = ({ onComplete }) => {
     };
 
     return (
-        <div className="flex flex-col items-center gap-6 p-4 w-full">
+        <div className="flex flex-col items-center gap-4 p-4 w-full">
             <div className="text-center">
-                <h2 className="text-4xl font-heading text-primary-red mb-2">Love Match</h2>
-                <p className="text-gray-600 dark:text-gray-300">Find all matching pairs!</p>
+                <h2 className="text-3xl font-heading text-primary-red mb-2">Love Match</h2>
+                <p className="text-gray-600 dark:text-gray-300 text-sm">Match the pairs!</p>
             </div>
 
-            <div className="bg-white/30 backdrop-blur-md p-6 rounded-3xl border-2 border-primary-pink/30 shadow-xl max-w-md w-full">
-                <div className="grid grid-cols-3 gap-4 w-full">
+            <div className="bg-white/30 backdrop-blur-md p-4 rounded-3xl border-2 border-primary-pink/30 shadow-xl w-full max-w-[320px]">
+                <div className="grid grid-cols-4 gap-3 w-full">
                     {cards.map((card, index) => {
                         const isFlipped = flipped.includes(index) || solved.includes(index);
                         const Icon = card.Icon;
@@ -67,14 +67,14 @@ const LoveMatch = ({ onComplete }) => {
                                 onClick={() => handleClick(index)}
                             >
                                 <div
-                                    className={`w-full h-full glass-card flex items-center justify-center border-2 transition-all duration-500 rounded-xl ${isFlipped ? 'rotate-y-180 border-primary-pink bg-white/60' : 'border-white/40 bg-white/20'
+                                    className={`w-full h-full glass-card flex items-center justify-center border transition-all duration-300 rounded-lg ${isFlipped ? 'rotate-y-180 border-primary-pink bg-white/60' : 'border-white/40 bg-white/20'
                                         } ${solved.includes(index) ? 'opacity-50 ring-2 ring-primary-red' : ''}`}
                                     style={{ transformStyle: 'preserve-3d' }}
                                 >
                                     {isFlipped ? (
-                                        <Icon size={32} className="text-primary-red drop-shadow-sm" />
+                                        <Icon size={20} className="text-primary-red drop-shadow-sm" />
                                     ) : (
-                                        <div className="text-2xl font-bold text-primary-pink">?</div>
+                                        <div className="text-lg font-bold text-primary-pink">?</div>
                                     )}
                                 </div>
                             </motion.div>
