@@ -46,39 +46,41 @@ const LoveMatch = ({ onComplete }) => {
     };
 
     return (
-        <div className="flex flex-col items-center gap-6 p-2">
+        <div className="flex flex-col items-center gap-6 p-4 w-full">
             <div className="text-center">
-                <h2 className="text-3xl font-bold text-primary-red mb-1">Love Match</h2>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Find all matching pairs!</p>
+                <h2 className="text-4xl font-heading text-primary-red mb-2">Love Match</h2>
+                <p className="text-gray-600 dark:text-gray-300">Find all matching pairs!</p>
             </div>
 
-            <div className="grid grid-cols-4 gap-3 max-w-[320px] w-full">
-                {cards.map((card, index) => {
-                    const isFlipped = flipped.includes(index) || solved.includes(index);
-                    const Icon = card.Icon;
+            <div className="bg-white/30 backdrop-blur-md p-6 rounded-3xl border-2 border-primary-pink/30 shadow-xl max-w-md w-full">
+                <div className="grid grid-cols-3 gap-4 w-full">
+                    {cards.map((card, index) => {
+                        const isFlipped = flipped.includes(index) || solved.includes(index);
+                        const Icon = card.Icon;
 
-                    return (
-                        <motion.div
-                            key={card.id}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="relative aspect-square cursor-pointer"
-                            onClick={() => handleClick(index)}
-                        >
-                            <div
-                                className={`w-full h-full glass-card flex items-center justify-center border transition-all duration-500 rounded-lg ${isFlipped ? 'rotate-y-180 border-primary-pink bg-white/40' : 'border-gray-200 bg-white/10'
-                                    } ${solved.includes(index) ? 'opacity-40' : ''}`}
-                                style={{ transformStyle: 'preserve-3d' }}
+                        return (
+                            <motion.div
+                                key={card.id}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="relative aspect-square cursor-pointer"
+                                onClick={() => handleClick(index)}
                             >
-                                {isFlipped ? (
-                                    <Icon size={24} className="text-primary-red" />
-                                ) : (
-                                    <div className="text-xl font-bold text-primary-pink/50">?</div>
-                                )}
-                            </div>
-                        </motion.div>
-                    );
-                })}
+                                <div
+                                    className={`w-full h-full glass-card flex items-center justify-center border-2 transition-all duration-500 rounded-xl ${isFlipped ? 'rotate-y-180 border-primary-pink bg-white/60' : 'border-white/40 bg-white/20'
+                                        } ${solved.includes(index) ? 'opacity-50 ring-2 ring-primary-red' : ''}`}
+                                    style={{ transformStyle: 'preserve-3d' }}
+                                >
+                                    {isFlipped ? (
+                                        <Icon size={32} className="text-primary-red drop-shadow-sm" />
+                                    ) : (
+                                        <div className="text-2xl font-bold text-primary-pink">?</div>
+                                    )}
+                                </div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
