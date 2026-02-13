@@ -3,10 +3,12 @@ import LandingPage from './components/LandingPage.jsx';
 import CreatePage from './components/CreatePage.jsx';
 import LovePage from './components/LovePage.jsx';
 import HeartCatcher from './components/HeartCatcher.jsx';
+import SharePage from './components/SharePage.jsx';
 
 function App() {
-    const [view, setView] = useState('landing'); // landing, create, game, love
+    const [view, setView] = useState('landing'); // landing, create, share, game, love
     const [data, setData] = useState(null);
+    const [shareUrl, setShareUrl] = useState('');
 
     useEffect(() => {
         // Check for data in URL
@@ -17,6 +19,7 @@ function App() {
             try {
                 const decoded = JSON.parse(atob(encodedData));
                 setData(decoded);
+                // If visiting with data, go straight to game
                 setView('game');
             } catch (error) {
                 console.error('Error decoding data:', error);
@@ -27,8 +30,15 @@ function App() {
     const handleCreate = (formData) => {
         const encoded = btoa(JSON.stringify(formData));
         const newUrl = `${window.location.origin}${window.location.pathname}?data=${encoded}`;
-        window.history.pushState({}, '', newUrl);
+
+        setShareUrl(newUrl);
         setData(formData);
+        setView('share');
+    };
+
+    const handlePreview = () => {
+        // Update URL and go to game
+        window.history.pushState({}, '', shareUrl);
         setView('game');
     };
 
@@ -39,6 +49,7 @@ function App() {
     const handleBack = () => {
         window.history.pushState({}, '', window.location.pathname);
         setData(null);
+        setShareUrl('');
         setView('landing');
     };
 
@@ -49,6 +60,10 @@ function App() {
 
     if (view === 'create') {
         return <CreatePage onCreate={handleCreate} onBack={() => setView('landing')} />;
+    }
+
+    if (view === 'share') {
+        return <SharePage url={shareUrl} data={data} onPreview={handlePreview} />;
     }
 
     if (view === 'game') {
