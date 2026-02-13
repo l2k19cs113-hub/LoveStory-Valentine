@@ -724,3 +724,16 @@ button:disabled {
     background: rgba(255, 255, 255, 0.1);
     border-color: var(--primary-pink);
 }
+
+.fixed-controls-left {
+    position: fixed !important;
+    bottom: 2rem !important;
+    left: 2rem !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    z-index: 10000 !important;
+}
