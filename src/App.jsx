@@ -42,7 +42,7 @@ function App() {
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
   return (
-    <div className={`app-container ${isDarkMode ? 'dark' : ''}`}>
+    <div className={`app-container ${isDarkMode ? 'dark' : ''} min-h-screen flex items-center justify-center p-4`}>
       <HeartParticles />
 
       <button
@@ -54,27 +54,27 @@ function App() {
 
       <AnimatePresence mode="wait">
         {currentPage === 'landing' && (
-          <motion.div key="landing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <motion.div key="landing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full">
             <LandingPage onStart={() => setCurrentPage('create')} />
           </motion.div>
         )}
 
         {currentPage === 'create' && (
-          <motion.div key="create" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }}>
+          <motion.div key="create" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} className="w-full">
             <CreatePage onCreate={handleCreate} onBack={() => setCurrentPage('landing')} />
           </motion.div>
         )}
 
         {currentPage === 'game-intro' && (
-          <motion.div key="game-intro" className="min-h-screen flex items-center justify-center p-6" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-            <div className="glass-card max-w-xl p-12 text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-10"><Gamepad2 size={120} /></div>
-              <Gamepad2 size={80} className="text-primary-red mx-auto mb-6" />
-              <h2 className="text-4xl font-bold mb-4">Challenge Accepted?</h2>
-              <p className="text-gray-600 dark:text-gray-300 text-xl mb-10 leading-relaxed">
-                Before {loveData?.partnerName} can unlock your secret message, they must complete the <span className="text-primary-red font-bold">Love Challenge</span>! 🎮
+          <motion.div key="game-intro" className="w-full max-w-md" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
+            <div className="glass-card p-8 text-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-10"><Gamepad2 size={100} /></div>
+              <Gamepad2 size={60} className="text-primary-red mx-auto mb-4" />
+              <h2 className="text-3xl font-bold mb-3">Challenge Accepted?</h2>
+              <p className="text-gray-600 dark:text-gray-300 text-lg mb-8 leading-relaxed">
+                Complete the <span className="text-primary-red font-bold">Love Challenge</span> to unlock the message! 🎮
               </p>
-              <button onClick={startGames} className="romantic-gradient w-full py-4 rounded-full text-white text-xl font-bold shadow-lg hover:scale-105 transition-transform">
+              <button onClick={startGames} className="romantic-gradient w-full py-3 rounded-full text-white text-lg font-bold shadow-lg hover:scale-105 transition-transform">
                 Start Challenge 🚀
               </button>
             </div>
@@ -82,8 +82,8 @@ function App() {
         )}
 
         {currentPage === 'games' && (
-          <motion.div key="games" className="min-h-screen flex items-center justify-center p-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className="w-full max-w-4xl">
+          <motion.div key="games" className="w-full max-w-md" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <div className="glass-card p-6 bg-white/40 shadow-2xl relative overflow-hidden">
               {gameState === 'level1' && <HeartCatcher onComplete={onGameComplete} />}
               {gameState === 'level2' && <LoveMatch onComplete={onGameComplete} />}
             </div>
@@ -91,7 +91,7 @@ function App() {
         )}
 
         {currentPage === 'love' && (
-          <motion.div key="love" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
+          <motion.div key="love" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="w-full">
             <LovePage data={loveData} onBack={() => setCurrentPage('create')} />
           </motion.div>
         )}
