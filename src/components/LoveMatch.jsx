@@ -46,13 +46,13 @@ const LoveMatch = ({ onComplete }) => {
     };
 
     return (
-        <div className="flex flex-col items-center gap-8 p-4">
+        <div className="flex flex-col items-center gap-6 p-2">
             <div className="text-center">
-                <h2 className="text-3xl font-bold text-primary-red mb-2">Love Match</h2>
-                <p className="text-gray-600 dark:text-gray-400">Match the pairs to unlock the surprise!</p>
+                <h2 className="text-3xl font-bold text-primary-red mb-1">Love Match</h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">Find all matching pairs!</p>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 max-w-sm w-full">
+            <div className="grid grid-cols-4 gap-3 max-w-[320px] w-full">
                 {cards.map((card, index) => {
                     const isFlipped = flipped.includes(index) || solved.includes(index);
                     const Icon = card.Icon;
@@ -66,14 +66,14 @@ const LoveMatch = ({ onComplete }) => {
                             onClick={() => handleClick(index)}
                         >
                             <div
-                                className={`w-full h-full glass-card flex items-center justify-center border-2 transition-all duration-500 ${isFlipped ? 'rotate-y-180 border-primary-pink' : 'border-gray-200'
+                                className={`w-full h-full glass-card flex items-center justify-center border transition-all duration-500 rounded-lg ${isFlipped ? 'rotate-y-180 border-primary-pink bg-white/40' : 'border-gray-200 bg-white/10'
                                     } ${solved.includes(index) ? 'opacity-40' : ''}`}
                                 style={{ transformStyle: 'preserve-3d' }}
                             >
                                 {isFlipped ? (
-                                    <Icon size={40} className="text-primary-red" />
+                                    <Icon size={24} className="text-primary-red" />
                                 ) : (
-                                    <div className="text-2xl font-bold text-primary-pink">?</div>
+                                    <div className="text-xl font-bold text-primary-pink/50">?</div>
                                 )}
                             </div>
                         </motion.div>

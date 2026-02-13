@@ -630,4 +630,5 @@ button:disabled {
 
 .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-}
+}. g r i d - c o l s - 4   {   g r i d - t e m p l a t e - c o l u m n s :   r e p e a t ( 4 ,   m i n m a x ( 0 ,   1 f r ) ) ;   }  
+ 
