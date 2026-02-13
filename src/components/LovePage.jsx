@@ -211,8 +211,16 @@ const LovePage = ({ data, onBack }) => {
                                     <motion.button
                                         animate={{ x: noButtonPos.x, y: noButtonPos.y }}
                                         onMouseEnter={handleNoHover}
-                                        onTouchStart={handleNoHover}
-                                        className="px-8 py-4 bg-gray-200 text-gray-600 text-lg font-medium rounded-full z-10"
+                                        onTouchStart={(e) => {
+                                            e.preventDefault(); // Stop click emulation
+                                            handleNoHover();
+                                        }}
+                                        onPointerDown={(e) => {
+                                            e.preventDefault();
+                                            handleNoHover();
+                                        }}
+                                        style={{ touchAction: 'none' }} // Prevent scrolling/zooming on the button
+                                        className="px-8 py-4 bg-gray-200 text-gray-600 text-lg font-medium rounded-full z-10 select-none"
                                     >
                                         No
                                     </motion.button>
