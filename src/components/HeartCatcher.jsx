@@ -66,18 +66,26 @@ const HeartCatcher = ({ onComplete }) => {
     };
 
     return (
-        <div className="flex flex-col items-center gap-4">
-            <div className="text-center">
-                <h2 className="text-3xl font-heading text-primary-red">Heart Catcher</h2>
-                <p className="text-gray-600">Catch {targetScore} hearts! ({score}/{targetScore})</p>
+        <div className="flex flex-col items-center gap-6 w-full max-w-lg z-20">
+            <div className="w-full bg-white/10 h-3 rounded-full overflow-hidden backdrop-blur-sm border border-white/20 shadow-inner">
+                <motion.div
+                    className="h-full romantic-gradient shadow-[0_0_15px_rgba(230,57,70,0.5)]"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${(score / targetScore) * 100}%` }}
+                    transition={{ type: 'spring', stiffness: 50 }}
+                />
             </div>
 
             <div
                 ref={containerRef}
-                className="game-container cursor-none touch-none"
+                className="game-container glass-card cursor-none touch-none shadow-2xl relative border-white/30"
+                style={{ height: '450px' }}
                 onMouseMove={handleMouseMove}
                 onTouchMove={handleTouchMove}
             >
+                <div className="absolute top-4 right-4 z-20 bg-white/40 py-2 px-4 rounded-full text-xs font-bold backdrop-blur-md border border-white/20 shadow-sm text-primary-red">
+                    LOVE COLLECTED: {score}/{targetScore}
+                </div>
                 <AnimatePresence>
                     {hearts.map(heart => (
                         <div

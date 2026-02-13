@@ -32,7 +32,7 @@ const LandingPage = ({ onStart }) => {
                             onClick={onStart}
                             className="romantic-gradient px-8 py-4 rounded-full text-white text-lg font-semibold flex items-center gap-2 shadow-lg shadow-red-200"
                         >
-                            Create Magic Now
+                            Exotic Surprise Now
                             <ArrowRight size={20} />
                         </button>
 

@@ -52,13 +52,22 @@ function App() {
     }
 
     if (view === 'game') {
+        const isMidnight = data?.theme === 'midnight';
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-pink-50">
-                <div className="mb-8 text-center max-w-md">
-                    <h1 className="text-3xl font-bold text-primary-red mb-2">The Portal of Love</h1>
-                    <p className="text-gray-600">Demonstrate your devotion by gathering the falling hearts...</p>
+            <div className={`min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-500 ${isMidnight ? 'dark-theme' : ''}`} style={{ backgroundColor: isMidnight ? 'var(--dark-love)' : 'var(--cream-white)' }}>
+                <div className="mb-8 text-center max-w-md z-10">
+                    <h1 className="text-4xl font-bold text-primary-red mb-3">A Special Surprise Awaits!</h1>
+                    <p className="text-lg opacity-80">Catch some love to reveal your message...</p>
                 </div>
-                <HeartCatcher onComplete={handleGameComplete} />
+                <div className="relative z-10 w-full flex justify-center">
+                    <HeartCatcher onComplete={handleGameComplete} />
+                </div>
+
+                {/* Background Decor */}
+                <div className="fixed inset-0 pointer-events-none opacity-50">
+                    <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary-pink/10 blur-3xl rounded-full animate-pulse"></div>
+                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary-red/5 blur-3xl rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+                </div>
             </div>
         );
     }

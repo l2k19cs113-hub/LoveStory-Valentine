@@ -51,28 +51,28 @@ const CreatePage = ({ onCreate, onBack }) => {
                                         <User size={24} />
                                     </div>
                                     <div>
-                                        <h2 className="text-3xl font-bold">Identify Your Muse</h2>
-                                        <p className="text-gray-500">Who will receive this piece of your heart?</p>
+                                        <h2 className="text-3xl font-bold">Personalize</h2>
+                                        <p className="text-gray-500">Who is this surprise for?</p>
                                     </div>
                                 </div>
 
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="label-glass">Name of Your Beloved</label>
+                                        <label className="label-glass">Partner's Name</label>
                                         <input
                                             type="text"
                                             className="input-glass"
-                                            placeholder="The name that makes you smile..."
+                                            placeholder="Enter their name"
                                             value={formData.partnerName}
                                             onChange={(e) => updateFormData('partnerName', e.target.value)}
                                         />
                                     </div>
                                     <div>
-                                        <label className="label-glass">Your Secret Name</label>
+                                        <label className="label-glass">Your Name</label>
                                         <input
                                             type="text"
                                             className="input-glass"
-                                            placeholder="How they know you..."
+                                            placeholder="Enter your name"
                                             value={formData.yourName}
                                             onChange={(e) => updateFormData('yourName', e.target.value)}
                                         />
@@ -107,16 +107,16 @@ const CreatePage = ({ onCreate, onBack }) => {
                                         <MessageCircle size={24} />
                                     </div>
                                     <div>
-                                        <h2 className="text-3xl font-bold">Letters of Love</h2>
-                                        <p className="text-gray-500">Whisper your heart's deepest desires...</p>
+                                        <h2 className="text-3xl font-bold">Your Message</h2>
+                                        <p className="text-gray-500">Express your feelings...</p>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="label-glass">Your Romantic Note</label>
+                                    <label className="label-glass">The Love Note</label>
                                     <textarea
                                         className="input-glass min-h-[150px]"
-                                        placeholder="In your eyes, I found my home..."
+                                        placeholder="Write something beautiful..."
                                         value={formData.message}
                                         onChange={(e) => updateFormData('message', e.target.value)}
                                     />
@@ -150,17 +150,17 @@ const CreatePage = ({ onCreate, onBack }) => {
                                         <Gift size={24} />
                                     </div>
                                     <div>
-                                        <h2 className="text-3xl font-bold">The Eternal Vow</h2>
-                                        <p className="text-gray-500">Seal it with the perfect question.</p>
+                                        <h2 className="text-3xl font-bold">The Big Question</h2>
+                                        <p className="text-gray-500">The final proposal text.</p>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="label-glass">The Big Proposal</label>
+                                    <label className="label-glass">Proposal Question</label>
                                     <input
                                         type="text"
                                         className="input-glass"
-                                        placeholder="Will you walk through life with me?"
+                                        placeholder="Will you be my Valentine?"
                                         value={formData.proposalText}
                                         onChange={(e) => updateFormData('proposalText', e.target.value)}
                                     />

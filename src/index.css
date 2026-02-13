@@ -30,9 +30,26 @@ body {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-body.dark-mode {
-    background-color: var(--dark-love);
-    color: var(--cream-white);
+body.dark-mode,
+.dark-theme {
+    background-color: var(--dark-love) !important;
+    color: var(--cream-white) !important;
+}
+
+.dark-theme .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .text-gray-600,
+.dark-theme .text-gray-500,
+.dark-theme .text-gray-700 {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.dark-theme .input-glass {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
 }
 
 h1,
