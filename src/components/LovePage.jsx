@@ -7,10 +7,24 @@ const LovePage = ({ data, onBack }) => {
     const [showProposal, setShowProposal] = useState(false);
     const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
     const [accepted, setAccepted] = useState(false);
-    const [isMuted, setIsMuted] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
     const [displayText, setDisplayText] = useState('');
     const [copied, setCopied] = useState(false);
     const audioRef = useRef(null);
+
+    useEffect(() => {
+        // Global click listener to unlock audio (browser requirement)
+        const unlockAudio = () => {
+            if (audioRef.current && isMuted) {
+                // We keep it muted by default but prepare the element
+                // Or better: if user clicks anything, we try to play
+                setIsMuted(false);
+                document.removeEventListener('click', unlockAudio);
+            }
+        };
+        document.addEventListener('click', unlockAudio);
+        return () => document.removeEventListener('click', unlockAudio);
+    }, [isMuted]);
 
     useEffect(() => {
         // Typewriter effect
@@ -28,9 +42,14 @@ const LovePage = ({ data, onBack }) => {
 
     useEffect(() => {
         if (audioRef.current) {
-            audioRef.current.volume = 0.5;
+            audioRef.current.volume = 0.4;
             if (!isMuted) {
-                audioRef.current.play().catch(err => console.log("Autoplay blocked or audio error"));
+                const playPromise = audioRef.current.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Playback failed:", error);
+                    });
+                }
             } else {
                 audioRef.current.pause();
             }
@@ -85,7 +104,7 @@ const LovePage = ({ data, onBack }) => {
             {/* Audio Element */}
             <audio
                 ref={audioRef}
-                src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                src="https://www.mboxdrive.com/A%20Thousand%20Years.mp3"
                 loop
             />
 
