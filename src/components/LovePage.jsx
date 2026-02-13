@@ -122,18 +122,35 @@ const LovePage = ({ data, onBack }) => {
     return (
         <div className={`min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-6 ${data.theme === 'midnight' ? 'dark-theme' : ''}`}>
 
+            {/* Floating Controls - Explicitly in corner */}
+            <div
+                style={{ position: 'fixed', bottom: '2rem', left: '2rem', zIndex: 100 }}
+                className="flex flex-col gap-4"
+            >
+                <button
+                    onClick={() => setIsMuted(!isMuted)}
+                    className="p-4 glass-card bg-white shadow-xl text-primary-red transition-transform hover:scale-110 active:scale-95"
+                >
+                    {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+                </button>
+                <button
+                    onClick={() => setIsMuted(!isMuted)}
+                    className="p-4 glass-card bg-white shadow-xl text-primary-red transition-transform hover:scale-110 active:scale-95"
+                >
+                    <Music size={24} />
+                </button>
+            </div>
+
             <audio
                 ref={audioRef}
                 src="/bgm.mp3"
                 loop
                 onError={(e) => {
-                    console.log("Local /bgm.mp3 failed, trying /assets/bgm.mp3");
-                    if (e.target.src.includes("/bgm.mp3")) {
-                        e.target.src = "/assets/bgm.mp3";
-                    } else {
+                    console.log("Local audio failed, checking fallback...");
+                    if (!e.target.src.includes("SoundHelix")) {
                         e.target.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3";
+                        if (isStarted) e.target.play();
                     }
-                    if (isStarted) e.target.play();
                 }}
             />
 
@@ -244,23 +261,6 @@ const LovePage = ({ data, onBack }) => {
                     )}
                 </AnimatePresence>
             </div>
-
-            {/* Floating Controls */}
-            <div className="fixed bottom-8 left-8 flex flex-col gap-4 z-50">
-                <button
-                    onClick={() => setIsMuted(!isMuted)}
-                    className="p-4 glass-card bg-white/50 text-primary-red shadow-lg"
-                >
-                    {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
-                </button>
-                <button
-                    onClick={() => setIsMuted(!isMuted)}
-                    className="p-4 glass-card bg-white/50 text-gray-600 shadow-lg"
-                >
-                    <Music size={24} />
-                </button>
-            </div>
-
         </div>
     );
 };
