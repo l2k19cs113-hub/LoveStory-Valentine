@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import LandingPage from './components/LandingPage.jsx';
 import CreatePage from './components/CreatePage.jsx';
 import LovePage from './components/LovePage.jsx';
-import LoveMatch from './components/LoveMatch.jsx';
 import HeartCatcher from './components/HeartCatcher.jsx';
 
 function App() {
-    const [view, setView] = useState('landing'); // landing, create, game1, game2, love
+    const [view, setView] = useState('landing'); // landing, create, game, love
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -18,7 +17,7 @@ function App() {
             try {
                 const decoded = JSON.parse(atob(encodedData));
                 setData(decoded);
-                setView('game1');
+                setView('game');
             } catch (error) {
                 console.error('Error decoding data:', error);
             }
@@ -30,14 +29,10 @@ function App() {
         const newUrl = `${window.location.origin}${window.location.pathname}?data=${encoded}`;
         window.history.pushState({}, '', newUrl);
         setData(formData);
-        setView('game1');
+        setView('game');
     };
 
-    const handleGame1Complete = () => {
-        setView('game2');
-    };
-
-    const handleGame2Complete = () => {
+    const handleGameComplete = () => {
         setView('love');
     };
 
@@ -56,26 +51,14 @@ function App() {
         return <CreatePage onCreate={handleCreate} onBack={() => setView('landing')} />;
     }
 
-    if (view === 'game1') {
+    if (view === 'game') {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-pink-50">
                 <div className="mb-8 text-center max-w-md">
-                    <h1 className="text-3xl font-bold text-primary-red mb-2">Part 1: Catch Some Love!</h1>
-                    <p className="text-gray-600">The surprise is getting closer...</p>
+                    <h1 className="text-3xl font-bold text-primary-red mb-2">A Special Surprise Awaits!</h1>
+                    <p className="text-gray-600">Catch some love to reveal your message...</p>
                 </div>
-                <HeartCatcher onComplete={handleGame1Complete} />
-            </div>
-        );
-    }
-
-    if (view === 'game2') {
-        return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-pink-50">
-                <div className="mb-8 text-center max-w-md">
-                    <h1 className="text-3xl font-bold text-primary-red mb-2">Part 2: A Perfect Match</h1>
-                    <p className="text-gray-600">Almost there! Match the fragments of your surprise...</p>
-                </div>
-                <LoveMatch onComplete={handleGame2Complete} />
+                <HeartCatcher onComplete={handleGameComplete} />
             </div>
         );
     }
