@@ -246,7 +246,7 @@ const LovePage = ({ data, onBack }) => {
             </div>
 
             {/* Floating Controls */}
-            <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-50">
+            <div className="fixed bottom-8 left-8 flex flex-col gap-4 z-50">
                 <button
                     onClick={() => setIsMuted(!isMuted)}
                     className="p-4 glass-card bg-white/50 text-primary-red shadow-lg"
