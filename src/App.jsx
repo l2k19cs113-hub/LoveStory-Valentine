@@ -6,6 +6,21 @@ import LovePage from './components/LovePage.jsx';
 import HeartCatcher from './components/HeartCatcher.jsx';
 import SharePage from './components/SharePage.jsx';
 
+// Helper for safe Base64 encoding (supports emojis/Unicode)
+const safeBtoa = (str) => {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+            return String.fromCharCode('0x' + p1);
+        }));
+};
+
+// Helper for safe Base64 decoding
+const safeAtob = (str) => {
+    return decodeURIComponent(atob(str).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+};
+
 function App() {
     const [view, setView] = useState('landing'); // landing, create, share, game, love
     const [data, setData] = useState(null);
@@ -18,7 +33,17 @@ function App() {
 
         if (encodedData) {
             try {
-                const decoded = JSON.parse(atob(encodedData));
+                // Try safe decoding first
+                let decodedStr;
+                try {
+                    decodedStr = safeAtob(encodedData);
+                } catch (e) {
+                    // Fallback for old links (standard atob)
+                    console.log("Legacy link detected, trying standard decoding");
+                    decodedStr = atob(encodedData);
+                }
+
+                const decoded = JSON.parse(decodedStr);
                 setData(decoded);
                 // If visiting with data, go straight to game
                 setView('game');
@@ -29,12 +54,17 @@ function App() {
     }, []);
 
     const handleCreate = (formData) => {
-        const encoded = btoa(JSON.stringify(formData));
-        const newUrl = `${window.location.origin}${window.location.pathname}?data=${encoded}`;
+        try {
+            const encoded = safeBtoa(JSON.stringify(formData));
+            const newUrl = `${window.location.origin}${window.location.pathname}?data=${encoded}`;
 
-        setShareUrl(newUrl);
-        setData(formData);
-        setView('share');
+            setShareUrl(newUrl);
+            setData(formData);
+            setView('share');
+        } catch (error) {
+            console.error("Encoding error:", error);
+            alert("Something went wrong creating your surprise. Please try simpler text/emojis.");
+        }
     };
 
     const handlePreview = () => {
