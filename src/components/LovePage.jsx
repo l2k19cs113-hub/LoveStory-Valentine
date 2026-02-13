@@ -124,13 +124,12 @@ const LovePage = ({ data, onBack }) => {
 
             <audio
                 ref={audioRef}
-                src="https://archive.org/download/96moviebgm/Kadhale%20Kadhale.mp3"
+                src="/assets/bgm.mp3"
                 loop
                 onError={(e) => {
-                    console.log("96 Song failed, falling back to backup");
-                    // Backup link just in case
+                    console.log("Local song failed, falling back to backup");
                     e.target.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3";
-                    e.target.play();
+                    if (isStarted) e.target.play();
                 }}
             />
 
