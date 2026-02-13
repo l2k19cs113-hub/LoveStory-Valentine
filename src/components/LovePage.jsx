@@ -211,6 +211,7 @@ const LovePage = ({ data, onBack }) => {
                                     <motion.button
                                         animate={{ x: noButtonPos.x, y: noButtonPos.y }}
                                         onMouseEnter={handleNoHover}
+                                        onTouchStart={handleNoHover}
                                         className="px-8 py-4 bg-gray-200 text-gray-600 text-lg font-medium rounded-full z-10"
                                     >
                                         No
